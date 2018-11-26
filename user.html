@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" type="text/css" 
+   href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
+  <link rel="stylesheet" type="text/css" 
+   href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+  <link rel="stylesheet" href="{{ url_for( 'static', filename='css/style.css') }}"> <!--this is how to connect to a static style.css, which should be in a static folder.-->
+  <title>Display User</title>
+</head>
+<body>
+
+
+
+
+    <div class="form-container right">
+
+
+
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email Address</th>
+            <th>Created At</th>
+          </tr>
+          <tr>
+              <td>{{id}}</td>
+              <td>{{first_name}}   {{last_name}}</td>
+              <td>{{email}}</td>
+              <td>{{created_at}}</td>
+          </tr>
+        </table>
+      </div>
+
+
+    {% for i in selecteduser %}
+    <form action='/users/{{ i["id"]}}/edit'>
+      <input type="submit" value="Edit">
+    </form>
+    <form action='/users/{{ i["id"]}}/destroy'>
+      <input type="submit" value="Delete">
+    </form>
+    {% endfor %} 
+
+
+
+</body>
+</html>
