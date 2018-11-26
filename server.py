@@ -19,17 +19,12 @@ def index():
   return render_template('success.html', email_addresses = users) #pass location list to the index.html page
 
 #display a form allowing users to create a new user.
-@app.route('/users/new', methods=['POST'])   
+@app.route('/users/new')   
 def new():
   return render_template('index.html') 
 
-
-
 #display the info for a particular user with given id.
-
-
-#COMPLETED
-@app.route('/users/<userid>')
+@app.route('/users/id/<userid>')
 def show(userid):
 
 
@@ -56,29 +51,39 @@ def destroy(userid):
     user_id = database.query_db(query, data)
     return redirect('/users')
 
-# display a form allowing users to edit an existing user with the given id. 
+#route is from the update button on the edit user page
+@app.route('/users/update/<userid>', methods=['POST'])
+def update(userid):
+    print("update button is working")
+    print(userid)
+    db = connectToMySQL(SCHEMA) #connect to DB
 
+    query = 'UPDATE users SET email = %(email)s, first_name = %(first_name)s, last_name = %(last_name)s WHERE (id = %(id)s);' #query DB
+
+    data = {
+        'first_name': request.form['first_name'],
+        'last_name': request.form['last_name'],
+        'email': request.form['email'],
+        'id': userid
+    }
+    print(data)
+    user_id = db.query_db(query, data)
+    mysql = connectToMySQL("users_db")
+
+    return redirect('/users')
+
+# display a form allowing users to edit an existing user with the given id. 
 @app.route('/users/<userid>/edit') #<  userid >  is a variable
 def edit(userid):
+    print("Edit button is working")
 
-    # db = connectToMySQL(SCHEMA) #connect to DB
-    # query = "SELECT * from users"
-    # data = {
-    #     'first_name': request.form['first_name'],
-    #     'last_name': request.form['last_name'],
-    #     'email': request.form['email'],
-    #     'id': userid
-    # }
-    # print(data)
-    # user_id = db.query_db(query, data)
-    # mysql = connectToMySQL("users_db")
-    return render_template('edit.html')
+    return render_template('edit.html', userid = userid)
 
 #CREATE USERS
 @app.route('/users/create', methods=['POST'])
 def create():
   errors = False
-  session.email = request.form['email']
+
 
   # check if email is valid
     # if so, check for uniqueness
@@ -96,7 +101,7 @@ def create():
     errors = True
 
   if errors == True:
-    return redirect('/users/create')
+    return render_template('index.html') 
   else:
     # add informattion to database
     db = connectToMySQL(SCHEMA) #connect to DB
@@ -111,7 +116,7 @@ def create():
     users = mysql.query_db("SELECT * FROM users")
     # return render_template('success.html', email_addresses = users, current_email = session.email)
     ##### adding, to confirm this works:
-    return redirect('/users/<userid>') #do i need to add the above?
+    return redirect('/users') #do i need to add the above?
 
 if __name__ == "__main__":
   app.run(debug=True)

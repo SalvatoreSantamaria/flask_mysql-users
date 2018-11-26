@@ -9,15 +9,15 @@
   <link rel="stylesheet" type="text/css" 
    href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
   <link rel="stylesheet" href="{{ url_for( 'static', filename='css/style.css') }}"> <!--this is how to connect to a static style.css, which should be in a static folder.-->
-  <title>Email Address Tester</title>
+  <title>Success</title>
 </head>
 <body>
   <div class="container">
-
-    <div class="form-container right"></div>
-
-
-
+    <div class="container right"></div>
+    <h3>User List</h3>
+      <form action="users/new" method="GET">
+        <input type="submit" value="Add a new user">
+      </form>
         <table>
           <tr>
             <th>ID</th>
@@ -32,8 +32,7 @@
             <td>{{ i['first_name']}} {{ i['last_name']}}</td>
             <td>{{ i['email']}}</td>
             <td>{{ i['created_at'] }}</td>
- 
-            <td><form action='/users/{{ i["id"]}}'>
+            <td><form action='/users/id/{{ i["id"]}}'>
               <input type='submit' value='Details'>
             </form>
             <form action='/users/{{ i["id"]}}/edit'>
@@ -46,11 +45,6 @@
           {% endfor %}
         </table>
       </div>
-
-      <form action="users/new" method="GET">
-        <input type="submit" value="Add a new user">
-      </form>
-
   </div>
 </body>
 </html>

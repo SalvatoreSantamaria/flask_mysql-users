@@ -12,14 +12,12 @@
   <title>Display User</title>
 </head>
 <body>
-
-
-
-
-    <div class="form-container right">
-
-
-
+    <div class="container">
+      <br>
+        <form action='/users'>
+          <input type="submit" value="Back">
+        </form>
+        <h3>User Details</h3>
         <table>
           <tr>
             <th>ID</th>
@@ -33,10 +31,7 @@
               <td>{{email}}</td>
               <td>{{created_at}}</td>
           </tr>
-        </table>
-      </div>
-
-
+        </table> 
     {% for i in selecteduser %}
     <form action='/users/{{ i["id"]}}/edit'>
       <input type="submit" value="Edit">
@@ -45,8 +40,6 @@
       <input type="submit" value="Delete">
     </form>
     {% endfor %} 
-
-
-
+  </div>
 </body>
 </html>
